@@ -6,9 +6,16 @@ class Solution:
 #         sum_nums = sum(nums)
 #         return sum_nums - sum_set
 
-        while nums[0] != nums[nums[0]]:
-            nums[nums[0]], nums[0] = nums[0], nums[nums[0]]
-        return nums[0]
+        # while nums[0] != nums[nums[0]]:
+        #     nums[nums[0]], nums[0] = nums[0], nums[nums[0]]
+        # return nums[0]
+    
+        hash=dict()
+        for item in nums:
+            if item in hash:
+                return item
+            else:
+                hash[item]=1
         
         
         
