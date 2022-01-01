@@ -10,7 +10,7 @@ class Solution:
         curr = dummyHead;
         carry = 0;
         
-    
+        # Iterate until one of the list exists
         while l1 or l2:
             v1 = 0
             v2 = 0
@@ -28,7 +28,8 @@ class Solution:
             
             curr.next = ListNode(val);
             curr = curr.next
-                
+            
+        # Edge case: Add carry in the end if no number left      
         if(carry > 0):
             curr.next = ListNode(carry)
         
