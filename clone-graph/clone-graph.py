@@ -11,6 +11,7 @@ class Solution:
         if node is None:
             return None
         
+        # Follow BFS
         queue = []
         visited = {}
         queue.append(node)
