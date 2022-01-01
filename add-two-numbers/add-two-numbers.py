@@ -29,7 +29,7 @@ class Solution:
             curr.next = ListNode(val);
             curr = curr.next
             
-        # Edge case: Add carry in the end if no number left      
+        # Edge case: Add carry in the end if no number left.      
         if(carry > 0):
             curr.next = ListNode(carry)
         
