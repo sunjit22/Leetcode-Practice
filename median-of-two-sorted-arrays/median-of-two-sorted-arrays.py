@@ -1,5 +1,6 @@
 class Solution:
      def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+            # Approach 1 - Not optimal
 #         len_1 = len(nums1)
 #         len_2 = len(nums2)
         
@@ -35,6 +36,8 @@ class Solution:
 #         else:
 #             mid = (length+1)//2
 #             return arr[mid-1]
+
+        # Appraoch 2 - optimal
         # New Array
         arr = nums1 + nums2
         if arr == []:
