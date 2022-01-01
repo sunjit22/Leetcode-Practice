@@ -35,6 +35,7 @@ class Solution:
 #         else:
 #             mid = (length+1)//2
 #             return arr[mid-1]
+        # New Array
         arr = nums1 + nums2
         if arr == []:
             return []
