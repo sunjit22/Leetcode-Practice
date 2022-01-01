@@ -8,23 +8,44 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
+        
         if node is None:
             return None
         
-        # Follow BFS
         queue = []
         visited = {}
         queue.append(node)
         visited[node] = Node(node.val, [])
-        while(len(queue) != 0):
-            s = queue.pop(-1)
-            
-            for neighbour in s.neighbors:
-                if neighbour not in visited:
-                    visited[neighbour] = Node(neighbour.val, [])
-                    queue.append(neighbour)
+        
+        while queue:
+            s = queue.pop(0)
+            for neighbor in s.neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = Node(neighbor.val, [])
+                    queue.append(neighbor)
                     
-                visited[s].neighbors.append(visited[neighbour]) 
-        return visited[node]         
+                visited[s].neighbors.append(visited[neighbor] )
+                
+        return visited[node]        
+       
+        
+#         if node is None:
+#             return None
+        
+#         # Follow BFS
+#         queue = []
+#         visited = {}
+#         queue.append(node)
+#         visited[node] = Node(node.val, [])
+#         while(len(queue) != 0):
+#             s = queue.pop(-1)
+            
+#             for neighbour in s.neighbors:
+#                 if neighbour not in visited:
+#                     visited[neighbour] = Node(neighbour.val, [])
+#                     queue.append(neighbour)
+                    
+#                 visited[s].neighbors.append(visited[neighbour]) 
+#         return visited[node]         
                     
                 
