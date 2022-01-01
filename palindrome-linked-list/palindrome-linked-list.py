@@ -12,6 +12,6 @@ class Solution:
             arr.append(head.val)
             head = head.next
           
-        # Check if arr is equal to its reverse
+        # Check if arr is equal to it's reverse
         return arr == arr[::-1]    
             
