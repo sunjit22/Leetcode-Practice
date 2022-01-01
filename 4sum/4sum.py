@@ -22,7 +22,7 @@ class Solution:
         
         return list(result)
 
-        # Approach 2
+        # Approach  2
 #         def twoSum(nums, target):
 #             """
 #             :type nums: List[int]
