@@ -12,7 +12,7 @@ class Solution:
         """
         
         while node.next.next:
-            # Replace with value of next node
+            # Replace with the value of next node
             node.val = node.next.val
             node = node.next
         node.val = node.next.val
