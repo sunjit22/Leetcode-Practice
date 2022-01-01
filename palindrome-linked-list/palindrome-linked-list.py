@@ -5,10 +5,13 @@
 #         self.next = next
 class Solution:
     def isPalindrome(self, head: Optional[ListNode]) -> bool:
+        if head is None:
+            return True
         arr = []
         while head:
             arr.append(head.val)
             head = head.next
-            
+          
+        # Check if arr is equal to its reverse
         return arr == arr[::-1]    
             
