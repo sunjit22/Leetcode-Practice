@@ -8,12 +8,16 @@ class Node:
 
 class Solution:
     def cloneGraph(self, node: 'Node') -> 'Node':
-        
+        # Check is node exists
         if node is None:
             return None
         
+        # Data structures used : 
+        # 1. Queue
+        # 2. Hashmap (Key: newNode, Value: newNode)
         queue = []
         visited = {}
+        
         queue.append(node)
         visited[node] = Node(node.val, [])
         
@@ -24,28 +28,7 @@ class Solution:
                     visited[neighbor] = Node(neighbor.val, [])
                     queue.append(neighbor)
                     
-                visited[s].neighbors.append(visited[neighbor] )
+                # Append neighbors to new node    
+                visited[s].neighbors.append(visited[neighbor])
                 
-        return visited[node]        
-       
-        
-#         if node is None:
-#             return None
-        
-#         # Follow BFS
-#         queue = []
-#         visited = {}
-#         queue.append(node)
-#         visited[node] = Node(node.val, [])
-#         while(len(queue) != 0):
-#             s = queue.pop(-1)
-            
-#             for neighbour in s.neighbors:
-#                 if neighbour not in visited:
-#                     visited[neighbour] = Node(neighbour.val, [])
-#                     queue.append(neighbour)
-                    
-#                 visited[s].neighbors.append(visited[neighbour]) 
-#         return visited[node]         
-                    
-                
+        return visited[node]               
