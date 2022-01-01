@@ -8,6 +8,8 @@ class Solution:
         iter = head
         len = 0
         i = 0
+        
+        # Count length
         while(iter):
             iter = iter.next
             len += 1
