@@ -27,9 +27,11 @@ class Solution:
             for i in range(count_2 - count_1):
                 headB = headB.next
         
-        
-        while headA != headB:
+        # Find common point
+        while headA and headB:
+            if headA == headB:
+                return headA
             headA = headA.next
             headB = headB.next
-        return headA        
+        return None        
             
