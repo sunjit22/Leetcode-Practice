@@ -4,7 +4,7 @@ class Solution:
         # Keep track of indices with zero
         zero_index = []
         
-        # Get total product of nums.
+        # Get total product of nums
         for i in range(1, len(nums)):
             # If zero exists, dont add it to product
             # Store index in zero_index 
@@ -21,16 +21,15 @@ class Solution:
                 
             # If zero exists in nums    
             else:   
-                # If more than one zeros exist
-                if i in zero_index and len(zero_index) > 1:
-                    output.append(0)
+                if i in zero_index:
+                    # If more than one zeros exist
+                    if len(zero_index) > 1:
+                        output.append(0)
+                    else:
+                        output.append(product)
                     
-                # If one zero exists   
-                elif i in zero_index: 
-                    output.append(product)
-                    
-                # If num is not zero, but other elements can be zero  .  
-                elif i not in zero_index and len(zero_index) > 0:
+                # If num is not zero, but other elements can be zero  
+                elif len(zero_index) > 0:
                     output.append(0)
 
         return output    
