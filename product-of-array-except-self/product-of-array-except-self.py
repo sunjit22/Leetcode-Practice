@@ -4,7 +4,7 @@ class Solution:
         # Keep track of indices with zero
         zero_index = []
         
-        # Get total product of nums
+        # Get total product of nums.
         for i in range(1, len(nums)):
             # If zero exists, dont add it to product
             # Store index in zero_index 
