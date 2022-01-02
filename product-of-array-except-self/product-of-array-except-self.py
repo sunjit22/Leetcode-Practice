@@ -1,7 +1,7 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         product = nums[0]
-        # Keep track of indices with zero
+        # Keep track of zero indices
         zero_index = []
         
         # Get total product of nums
