@@ -26,6 +26,9 @@ class Graph:
         self.adj[v].append(u)
         
     def bfs(self,source, dest):
+        if source == dest:
+            return True
+        
         visited = {}
         visited[source] = True
         queue = []
