@@ -7,7 +7,7 @@
 
 class Solution:
     def inorderSuccessor(self, root: 'TreeNode', p: 'TreeNode') -> 'Optional[TreeNode]':
-        # Check if right exists
+        # First check if right exists
         if p.right:
             curr = p.right
             while curr.left:
