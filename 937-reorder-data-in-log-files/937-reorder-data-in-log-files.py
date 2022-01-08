@@ -15,9 +15,5 @@ class Solution:
                 
         letter_logs.sort(key=lambda s: (s.split()[1],s.split()[2:], s.split()[0]))
         
-        for let in letter_logs:
-            result.append(let)
-            
-        for dig in digit_logs:
-            result.append(dig)    
-        return result
+         
+        return letter_logs+digit_logs
