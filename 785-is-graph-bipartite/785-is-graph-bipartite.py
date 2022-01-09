@@ -6,7 +6,7 @@ class Solution:
         # Loop through all nodes
         for i in range(len(graph)):
             # Check if has already been visited or not
-            # Breadth First Search
+            # Bfs
             if i not in color:
                 queue = [i]
                 color[i] = 0
