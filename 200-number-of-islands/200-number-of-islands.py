@@ -1,42 +1,36 @@
-land = '1'
-water = '0'
-
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        nRows = len(grid)
-        nCols = len(grid[0])
-        
-        lastRow = nRows-1
-        lastCol = nCols -1
-        
-        
+        if grid == None or len(grid) == 0:
+            return 0
+        rows = len(grid)
+        cols = len(grid[0])
         visited = []
-        for row in range(nRows):
-            visited.append([False]*nCols)
         
-        def dfs(i,j):
-            if i>lastRow or j>lastCol or i<0 or j<0:
-                return
+        for row in range(rows):
+            visited.append([False]*cols)
+        
+        
+        
+        def traverse_grid(i,j):
+            if i < 0 or j < 0 or i > (rows-1) or j > (cols-1) or grid[i][j] == '0' or visited[i][j]:
+                return 
             
-            if visited[i][j]:
-                return
-            
-            if grid[i][j] == water:
-                return
-            
+            grid[i][j] == "0"
             visited[i][j] = True
-
-            dfs(i+1,j)
-            dfs(i-1,j)
-            dfs(i,j+1)
-            dfs(i,j-1)
-
-        nIslands = 0
-        for i in range(nRows):
-            for j in range(nCols):
-                if grid[i][j] == land:
-                    if not visited[i][j]:
-                        nIslands += 1
-                        dfs(i,j)
-        
-        return nIslands
+            traverse_grid(i-1, j)
+            traverse_grid(i+1, j)
+            traverse_grid(i, j-1)
+            traverse_grid(i, j+1)
+            
+            
+        num_islands = 0
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == "1" and not visited[i][j]:
+                    num_islands += 1
+                    traverse_grid(i,j)
+                        
+        return num_islands   
+    
+    
+    
