@@ -1,8 +1,12 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
+        # Create a hashmap to keep track of visited node's colors
         color = {}
         
+        # Loop through all nodes
         for i in range(len(graph)):
+            # Check if has already been visited or not
+            # BFS
             if i not in color:
                 queue = [i]
                 color[i] = 0
