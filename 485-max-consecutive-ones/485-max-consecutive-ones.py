@@ -3,9 +3,8 @@ class Solution:
         if len(nums) == 0:
             return 0
         
-        max_count = 0
-        
         i = 0
+        max_count = 0
         count = 0
         while i < len(nums):
             if nums[i] == 1:
