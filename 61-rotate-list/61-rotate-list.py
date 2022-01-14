@@ -24,7 +24,6 @@ class Solution:
         first = divmod(k,length)[1]
         
         n = length - first
-        print(length,first,n)
         start_2 = head
         for i in range(1,n):
             start_2 = start_2.next
