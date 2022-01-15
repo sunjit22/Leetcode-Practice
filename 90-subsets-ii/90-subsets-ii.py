@@ -12,4 +12,4 @@ class Solution:
         for o in output:
             if o not in result:
                 result.append(o)
-        return sorted(result)      
+        return result 
