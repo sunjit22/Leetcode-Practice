@@ -3,10 +3,6 @@ class Solution:
         sum_ = sum(nums)
         set_nums = set(nums)
         
-        sum_set = 0
-        for s in set_nums:
-            sum_set += s
-        
-        sum_set = sum_set * 2
+        sum_set = sum(set_nums) * 2
         
         return sum_set - sum_
