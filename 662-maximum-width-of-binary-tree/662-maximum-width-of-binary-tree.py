@@ -13,16 +13,16 @@ class Solution:
         queue.append([root, 0])
         while queue:
             q_size = len(queue)
-            _, level_head_index = queue[0]
+            index_1 = queue[0][1]
             
             for i in range(q_size):
-                node, col_index = queue.pop(0)
+                node, index_2 = queue.pop(0)
                     
                 if node.left:
-                    queue.append([node.left, 2 * col_index])
+                    queue.append([node.left, 2 * index_2])
                 if node.right:
-                    queue.append([node.right, 2 * col_index + 1])
-            ans = max(ans, col_index - level_head_index + 1)
+                    queue.append([node.right, 2 * index_2 + 1])
+            ans = max(ans, index_2 - index_1 + 1)
             
         return ans     
                     
