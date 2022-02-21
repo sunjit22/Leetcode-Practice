@@ -10,3 +10,18 @@ class Solution:
                     part_dp.add((zeros + z, ones + o ,v + 1))
             dp |= part_dp
         return max(v for _, _, v in dp)
+
+ # Usage of |=   
+#     >>> s1 = {"a", "b", "c"}
+#     >>> s2 = {"d", "e", "f"}
+
+#     >>> # OR, | 
+#     >>> s1 | s2
+#     {'a', 'b', 'c', 'd', 'e', 'f'}
+#     >>> s1                                                     # `s1` is unchanged
+#     {'a', 'b', 'c'}
+
+    ## In-place OR, |=
+    # >>> s1 |= s2
+    # >>> s1                                                     # `s1` is reassigned
+    # {'a', 'b', 'c', 'd', 'e', 'f'}
