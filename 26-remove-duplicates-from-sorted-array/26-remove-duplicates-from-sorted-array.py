@@ -1,8 +1,13 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        set_nums = set(nums)
-        nums[:] = sorted(set_nums)
-        return len(nums)
-        # nums[:] = sorted(set(nums))
-        # return len(nums)
+        new_num = []
+        count = 0
+        
+        for num in nums:
+            if num not in new_num:
+                new_num.append(num)
+                count += 1
+                
+        nums[:] = new_num
+        return count
         
