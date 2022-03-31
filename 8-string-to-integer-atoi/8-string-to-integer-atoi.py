@@ -16,7 +16,7 @@ class Solution:
         i = 0 
         result = 0
         while(i < len(array) and array[i].isdigit()):
-            result = result * 10 + ord(array[i]) - ord('0')
+            result = result * 10 + int(array[i]) #ord(array[i]) - ord('0')
             i += 1
               
         result = result * sign  
