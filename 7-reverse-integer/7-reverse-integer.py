@@ -23,7 +23,7 @@ class Solution:
         if positive == False:
             num = num * -1
 
-        if num >= (2**31) - 1 or num <= -(2**31):
+        if num > (2**31) - 1 or num < -(2**31):
             return 0            
             
         return int(num)    
