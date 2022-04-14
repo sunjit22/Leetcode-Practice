@@ -1,44 +1,78 @@
 class Solution:
-    def solveSudoku(self, board) -> None:
+    def solveSudoku(self, board: 'List[List[str]]') -> 'None':
         """
         Do not return anything, modify board in-place instead.
         """
-        m, n = len(board), len(board[0])
-        if not any(['.' in i for i in board]): # exit condition
-            return board
-			
-		# get all possible next moves
-        moves = []
-        for i in range(m):
-            for j in range(n):
-                if board[i][j] == '.':
-                    candidates = self.generate_candidates(i, j, board)
-                    if not candidates:
-                        return # exit if no candidates can be generated at a given position
-                    moves.append((candidates, i, j))
-        moves.sort(key=lambda x: len(x[0]), reverse=True)
-		
-		# move forward for the position with fewest candidates
-        candidates, i, j = moves.pop() 
-        for candidate in candidates:
-            board[i][j] = candidate
-            res = self.solveSudoku(board)
-            if res:
-                return board
-            else:
-                board[i][j] = '.'
+        # init
+        row =  [0 for i in range(9)]
+        column =  [0 for i in range(9)]
+        grid = [0 for i in range(9)]
+        empty = {}
 
-    def generate_candidates(self, i, j, board): # generate candidates at a given position
-        candidates = set([str(n) for n in range(1, 10)])
-        for pos in range(9):
-            if board[pos][j] != '.' and board[pos][j]:
-                candidates.discard(board[pos][j])
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    num = 1 << (int(board[i][j]) - 1)
 
-            if board[i][pos] != '.':
-                candidates.discard(board[i][pos])
+                    row[i] |= num
+                    column[j] |= num
+                    grid[i // 3 * 3 + j // 3] |= num
+                else:
+                    empty[(i, j)] = 1
+            
+        # recursion
+        def dfs():
+            i, j, valid = heuristic_search()
+            
+            if i == -1: # full
+                return True
+            
+            grid_index = i // 3 * 3 + j // 3
+            
+            for k in range(1, 10):
+                num = (1 << (k - 1))
+                if valid & num:
+                    
+                    board[i][j] = str(k)
+                    row[i] |= num
+                    column[j] |= num
+                    grid[grid_index] |= num
+                    empty.pop((i, j))
+                    
+                    if dfs():
+                        return True
+                    else:
+                        board[i][j] = '.'
+                        row[i] &= ~num
+                        column[j] &= ~num
+                        grid[grid_index] &= ~num
+                        empty[(i, j)] = 1
+                        
+            return False
 
-        for ii in range(i//3 * 3, i//3*3+3):
-            for jj in range(j//3 * 3, j//3*3+3):
-                if board[ii][jj] != '.':
-                    candidates.discard(board[ii][jj])
-        return list(candidates)
+        # find best search location
+        # the best location has the fewest optional numbers
+        def heuristic_search():
+                        
+            min_count = 9
+            min_valid = 0x1FF
+            index_i = -1
+            index_j = -1
+            
+            for i, j in empty.keys():
+                valid =  (~row[i]) & (~column[j]) & (~grid[i // 3 * 3 + j // 3]) & 0x1FF
+                
+                count = 0
+                for k in range(9):
+                    if valid & (1 << k):
+                        count += 1
+                        
+                if count < min_count:
+                    min_count = count
+                    min_valid = valid
+                    index_i = i
+                    index_j = j
+                    
+            return index_i, index_j, min_valid
+            
+        dfs()
