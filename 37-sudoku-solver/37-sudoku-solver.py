@@ -1,62 +1,44 @@
 class Solution:
-  
-    def isvalid(self, grid, r, c, n):
+    def solveSudoku(self, board) -> None:
         """
-        returns True: given grid is a valid sudoku board
-        return False: given grid is not a valid sudoku board
+        Do not return anything, modify board in-place instead.
         """
-        for i in range(9):
-            if i!=r and grid[i][c]!='.' and grid[i][c]==n:
-                return False
-            if i!=c and grid[r][i]!='.' and grid[r][i]==n:
-                return False
-            bR = 3*(r//3)+i//3
-            bC = 3*(c//3)+i%3
-            if bR!=r and bC!=c and grid[bR][bC]!='.' and grid[bR][bC]==n:
-                return False
-        return True
-    
-    def solveBackTrack(self, grid, t):
-        for i in range(9):
-            for j in range(9):
-                if (i,j) in t and grid[i][j]=='.':
-                    for k in t[(i,j)]:
-                        if self.isvalid(grid, i, j, k):
-                            grid[i][j]=k
+        m, n = len(board), len(board[0])
+        if not any(['.' in i for i in board]): # exit condition
+            return board
+			
+		# get all possible next moves
+        moves = []
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == '.':
+                    candidates = self.generate_candidates(i, j, board)
+                    if not candidates:
+                        return # exit if no candidates can be generated at a given position
+                    moves.append((candidates, i, j))
+        moves.sort(key=lambda x: len(x[0]), reverse=True)
+		
+		# move forward for the position with fewest candidates
+        candidates, i, j = moves.pop() 
+        for candidate in candidates:
+            board[i][j] = candidate
+            res = self.solveSudoku(board)
+            if res:
+                return board
+            else:
+                board[i][j] = '.'
 
-                            if self.solveBackTrack(grid, t):
-                                return True
-                            else:
-                                grid[i][j]='.'
-                    return False
-        return True
+    def generate_candidates(self, i, j, board): # generate candidates at a given position
+        candidates = set([str(n) for n in range(1, 10)])
+        for pos in range(9):
+            if board[pos][j] != '.' and board[pos][j]:
+                candidates.discard(board[pos][j])
 
-    def solveSudoku(self, board: List[List[str]]) -> None:
-        maxval = 9
-        vals = ['1','2','3','4','5','6','7','8','9']
-        t = {}
+            if board[i][pos] != '.':
+                candidates.discard(board[i][pos])
 
-        safeval = True
-        while safeval:
-            safeval = False
-            for i in range(len(board)):
-                for j in range(len(board[0])):
-                  #non given val
-                  if board[i][j] == '.':
-                    #possible vals
-                    pv = []
-                    #check vals
-                    for k in range(0, maxval):
-                        board[i][j]=vals[k]
-
-                        if self.isvalid(board, i, j, vals[k]):
-                            pv.append(vals[k])
-
-                        board[i][j]='.'
-                    #put vals in table
-                    if len(pv)==1:
-                        board[i][j]=pv[0]
-                        safeval = True
-                    else:
-                        t[(i,j)]=pv
-        self.solveBackTrack(board, t)    
+        for ii in range(i//3 * 3, i//3*3+3):
+            for jj in range(j//3 * 3, j//3*3+3):
+                if board[ii][jj] != '.':
+                    candidates.discard(board[ii][jj])
+        return list(candidates)
