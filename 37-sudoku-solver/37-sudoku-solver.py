@@ -1,122 +1,62 @@
 class Solution:
-    def solveSudoku(self, board: List[List[str]]) -> None:
+  
+    def isvalid(self, grid, r, c, n):
         """
-        Do not return anything, modify board in-place instead.
+        returns True: given grid is a valid sudoku board
+        return False: given grid is not a valid sudoku board
         """
-        #Data preparation
-        self.columnInfo, self.rowInfo, self.matrixInfo, self.moves = self.getColumnRowInfo( board )
-        self.moveAmount = len(self.moves)
-        
-        self.board_answer = None
-        #search
-        self.solveHelper(board,0)
-        
-        #update board
-        board = self.board_answer
-        
-    def getColumnRowInfo( self, board: List[List[str]] ) -> Tuple["defaultdict", "defaultdict" , "defaultdict", List[int]]:
-        """
-            Obtains the information of what numbers are present on each column and
-            on each cell and the cells that are empty to obtain the information
-            of what moves needs to be done. It also obtains the information per
-            submatrix of the sudoku board.        
-        """
-        columnInfo = defaultdict(lambda: [])
-        rowInfo = defaultdict(lambda:[])
-        matrixInfo = defaultdict(lambda:[])
-        moves = []
-        for column in range( 9 ):
-            for row in range( 9 ) :
-                matrixIndex = self.getMatrixIndex(row,column)
-                if board[row][column] != '.':
-                    number = int( board[row][column] )
-                    columnInfo[ column ].append( number )
-                    matrixInfo[matrixIndex].append( number )
-                    
-                if board[column][row] != '.':
-                    rowInfo[column].append(int(board[column][row]))
-                
-                if board[row][column] == '.':
-                    moves.append( (row,column) )
-                    
-
-        return columnInfo, rowInfo, matrixInfo, moves
-        
-    def checkIfValidMove( self, row:int, column:int, matrixIndex:int, number:int) -> None:
-        """
-            Checks if the next move is a valid one to avoid visiting it and thus save
-            some time.
-        """
-        return self.board_answer == None and \
-               number not in self.rowInfo[row] and \
-               number not in self.columnInfo[column] and \
-               number not in self.matrixInfo[matrixIndex]
+        for i in range(9):
+            if i!=r and grid[i][c]!='.' and grid[i][c]==n:
+                return False
+            if i!=c and grid[r][i]!='.' and grid[r][i]==n:
+                return False
+            bR = 3*(r//3)+i//3
+            bC = 3*(c//3)+i%3
+            if bR!=r and bC!=c and grid[bR][bC]!='.' and grid[bR][bC]==n:
+                return False
+        return True
     
-    def solveHelper( self, board , index ):
-        """
-            Searches the solution, trying to satisfy the constraints created
-            in the first part of the solveSudoku function.
-            
-        """
-        if index == self.moveAmount:
-            self.board_answer = [[num for num in row] for row in board ]
-            return 
-       
-        row, column = self.moves[ index ]
-        matrixIndex = self.getMatrixIndex(row,column)
-        for number in range(1,10):
-            if self.checkIfValidMove( row, column , matrixIndex, number ):
-                self.solveHelperHelper( board, row, column, matrixIndex, number, index)
-                
-    def solveHelperHelper(self, board: List[List[int]] , row: int, column:int, matrixIndex:int, number:int, index:int) -> None:
-        """
-        
-            updates the board and then continues searching for the valid solution
-        
-        """
-        board[row][column] = str(number)
-        self.rowInfo[row].append(number)
-        self.columnInfo[column].append(number)
-        self.matrixInfo[matrixIndex].append(number)
-                            
-        self.solveHelper(board, index + 1)
-              
-        self.rowInfo[row].pop(-1)
-        self.columnInfo[column].pop(-1)
-        self.matrixInfo[matrixIndex].pop(-1)                    
+    def solveBackTrack(self, grid, t):
+        for i in range(9):
+            for j in range(9):
+                if (i,j) in t and grid[i][j]=='.':
+                    for k in t[(i,j)]:
+                        if self.isvalid(grid, i, j, k):
+                            grid[i][j]=k
 
-    def getMatrixIndex( self, row:int , column:int) -> int:
-        """
-        
-        obtains the info of at what sub matrix the current cell is
-        
-        """
-        if 0 <= row <=  2:
-            if 0 <= column <= 2:
-                return 0
-            
-            if 3 <= column <= 5:
-                return 1
-            
-            if 6 <= column <= 8:
-                return 2
-            
-        if 3 <= row <= 5:
-            if 0 <= column <= 2:
-                return 3
-            
-            if 3 <= column <= 5:
-                return 4
-            
-            if 6 <= column <= 8:
-                return 5
-        
-        if 6 <= row <= 8:
-            if 0 <= column <= 2:
-                return 6
-            
-            if 3 <= column <= 5:
-                return 7
-            
-            if 6 <= column <= 8:
-                return 8
+                            if self.solveBackTrack(grid, t):
+                                return True
+                            else:
+                                grid[i][j]='.'
+                    return False
+        return True
+
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        maxval = 9
+        vals = ['1','2','3','4','5','6','7','8','9']
+        t = {}
+
+        safeval = True
+        while safeval:
+            safeval = False
+            for i in range(len(board)):
+                for j in range(len(board[0])):
+                  #non given val
+                  if board[i][j] == '.':
+                    #possible vals
+                    pv = []
+                    #check vals
+                    for k in range(0, maxval):
+                        board[i][j]=vals[k]
+
+                        if self.isvalid(board, i, j, vals[k]):
+                            pv.append(vals[k])
+
+                        board[i][j]='.'
+                    #put vals in table
+                    if len(pv)==1:
+                        board[i][j]=pv[0]
+                        safeval = True
+                    else:
+                        t[(i,j)]=pv
+        self.solveBackTrack(board, t)    
