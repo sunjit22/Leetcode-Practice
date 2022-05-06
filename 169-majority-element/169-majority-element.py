@@ -20,29 +20,29 @@ class Solution:
         # nums.sort()
         # return nums[len(nums)//2]
         
-        hashmap = {}        
-        for i in range(len(nums)):
-            if nums[i] in hashmap:
-                hashmap[nums[i]] += 1
-            else:
-                hashmap[nums[i]] = 1
-        
-        nums.sort(key = lambda x:hashmap[x])
-        
-        return nums[-1]
-        
-        
-        
-#         count = 0
-#         candidate = None
-
-#         for num in nums:
-#             if count == 0:
-#                 candidate = num
-                
-#             if num == candidate:
-#                 count += 1
+#         hashmap = {}        
+#         for i in range(len(nums)):
+#             if nums[i] in hashmap:
+#                 hashmap[nums[i]] += 1
 #             else:
-#                 count -= 1
+#                 hashmap[nums[i]] = 1
+        
+#         nums.sort(key = lambda x:hashmap[x])
+        
+#         return nums[-1]
+        
+        
+        
+        count = 0
+        candidate = None
 
-#         return candidate
+        for num in nums:
+            if count == 0:
+                candidate = num
+                
+            if num == candidate:
+                count += 1
+            else:
+                count -= 1
+
+        return candidate
