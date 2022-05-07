@@ -35,6 +35,6 @@ class Solution:
             old_node = old_node.next
             new_node = new_node.next
             
-        return self.visited[head]    
+        return self.visited[head]  
+        
             
-           
