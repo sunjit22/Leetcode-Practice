@@ -19,3 +19,5 @@ class Solution:
         right_height = self.dfs(node.right)
         self.diameter = max(self.diameter,left_height + right_height )
         return max(left_height,right_height) + 1
+        
+   
