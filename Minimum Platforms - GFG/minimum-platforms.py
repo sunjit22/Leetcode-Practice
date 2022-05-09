@@ -14,7 +14,7 @@ class Solution:
         times = sorted(times, key = lambda x: x[0])
         
         result, plat_needed = 0, 0
-    
+  
         for i in range(2 * n):
             
             # If its 'a' then add 1 to plat_needed
