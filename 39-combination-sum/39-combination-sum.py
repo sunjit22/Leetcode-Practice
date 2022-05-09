@@ -1,8 +1,5 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-
-        results = []
-
         def backtrack(remain, comb, start):
             if remain == 0:
                 # make a deep copy of the current combination
@@ -19,7 +16,8 @@ class Solution:
                 backtrack(remain - candidates[i], comb, i)
                 # backtrack, remove the number from the combination
                 comb.pop()
-
+        
+        results = []
         backtrack(target, [], 0)
 
         return results
