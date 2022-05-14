@@ -11,22 +11,20 @@ class Solution:
         if node is None:
             return None
         
-        visited= {}
+        visited = {}
         visited[node] = Node(node.val, [])
         
-        queue = []
-        queue.append(node)
+        queue = [node]
         
         while queue:
             s = queue.pop(0)
-            for neighbor in s.neighbors:
-                if neighbor not in visited:
-                    visited[neighbor] = Node(neighbor.val, [])
-                    queue.append(neighbor)    
-                visited[s].neighbors.append(visited[neighbor])
-                
-        return visited[node]      
-                
-                
+            
+            for nbr in s.neighbors:
+                if nbr not in visited:
+                    visited[nbr] = Node(nbr.val, [])
+                    queue.append(nbr)
                     
+                visited[s].neighbors.append(visited[nbr])
+                
+        return visited[node]        
         
