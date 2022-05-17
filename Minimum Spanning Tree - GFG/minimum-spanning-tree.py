@@ -8,7 +8,7 @@ class Solution:
         active_edges=[]
         mst=[False]*V
         cost=0
-        heapq.heappush(active_edges,[0,1])
+        heapq.heappush(active_edges,[0,0])
 
         while len(active_edges)!=0:
             wt,node=heapq.heappop(active_edges)
