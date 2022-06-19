@@ -1,46 +1,37 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int m = nums1.length, n = nums2.length;
-        if (m > n) return findMedianSortedArrays(nums2, nums1);
-        if (m == 0) return (n % 2 == 0)? (nums2[n/2]+nums2[n/2-1])/2.0: nums2[n/2];
-        
-        int small = 0, big = 0;
-        int left = 0, right = m - 1;
-        int half = (m+n) / 2;
-        while (left < right) {
-            int mid1 = left + (right - left) / 2;
-            int mid2 = half-2-mid1;
-            if (nums1[mid1] <= nums2[mid2+1] && nums2[mid2] <= nums1[mid1+1]) {
-                small = Math.max(nums1[mid1], nums2[mid2]);
-                big = Math.min(nums1[mid1+1], nums2[mid2+1]);
-                if ((n+m) % 2 == 0) return (small+big) / 2.0;
-                else return big;
-            } else if (nums1[mid1] > nums2[mid2+1]) right = mid1;
-            else left = mid1 + 1;
-        }
-        
-        int mid2 = half - 1 - left;
-        if (left == 0) {
-            if (nums2[mid2] <= nums1[left]) {
-                small = nums2[mid2];
-                if (mid2 == n - 1 || nums1[left] <= nums2[mid2+1]) big = nums1[left];
-                else big = nums2[mid2+1];
-            } else {
-                big = nums2[mid2];
-                if (mid2 == 0 || nums1[left] >= nums2[mid2-1]) small = nums1[left];
-                else small = nums2[mid2-1];
-            }
+        // write your code here
+        int len = nums1.length + nums2.length;
+        if (len % 2 == 1) {
+            return finKth(nums1, 0, nums2, 0, len / 2 + 1);
         } else {
-            if (nums2[mid2] >= nums1[left]) {
-                big = nums2[mid2];
-                if (mid2 == 0 || nums1[left] >= nums2[mid2-1]) small = nums1[left];
-                else small = nums2[mid2-1];
-            } else {
-                big = nums1[left];
-                if (nums2[mid2] >= nums1[left-1]) small = nums2[mid2];
-                else small = nums1[left-1];
-            }
+            return (
+                finKth(nums1, 0, nums2, 0, len / 2) + finKth(nums1, 0, nums2, 0, len / 2 + 1)
+                ) / 2.0;
         }
-        return ((m+n) % 2 == 0)? (small+big)/2.0: big;
+    }
+    
+    private double finKth(int[] nums1, int indA, int[] nums2, int indB, int k) {
+        if (indA >= nums1.length) {
+            return nums2[indB + k - 1];
+        }
+        if (indB >= nums2.length) {
+            return nums1[indA + k - 1];
+        }
+        if (k == 1) {
+            return Math.min(nums1[indA], nums2[indB]);
+        }
+        
+        int A_key = indA + k / 2 - 1 < nums1.length 
+                    ? nums1[indA + k / 2 - 1]
+                    : Integer.MAX_VALUE;
+        int B_key = indB + k / 2 - 1 < nums2.length
+                    ? nums2[indB + k / 2 - 1]
+                    : Integer.MAX_VALUE;
+        if (A_key > B_key) {
+            return finKth(nums1, indA, nums2, indB + k / 2, k - k / 2);
+        } else {
+            return finKth(nums1, indA + k / 2, nums2, indB, k - k / 2);
+        }
     }
 }
