@@ -1,43 +1,26 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        
-        int m = nums1.length;
-        int n = nums2.length;
-        int[] mergedarray = new int[m+n];
-        
-        int i = 0;
-        int j = 0;
-        int k = 0;
-        
-        while(i < nums1.length && j < nums2.length) {
-            if(nums1[i] < nums2[j]) {
-                mergedarray[k++] = nums1[i++];
+int len1=nums1.length;//Taking lengths of the numbers considered.
+        int len2=nums2.length;//Similaryly for len2
+        int i1=0, i2=0;
+        int s=(len1+len2)/2;
+        int[] a = new int[s+1];//Taking in the form of array
+        for(int i=0 ; i<a.length ; i++) {
+            if(i1<nums1.length && i2<nums2.length) {//Checking whether i1 and i2 are less than respective lengths of numbers.
+                if(nums1[i1]<=nums2[i2]) {
+                    a[i] = nums1[i1++];
+                } else {
+                    a[i] = nums2[i2++];
+                }
             } else {
-                mergedarray[k++] = nums2[j++];
+                if(i1<nums1.length) {
+                    a[i] = nums1[i1++];
+                } else {
+                    a[i] = nums2[i2++];
+                }
             }
         }
+        return (a[(len1+len2-1)/2] + a[(len1+len2)/2])/2.0;//returing the output if above cases run successfully
         
-        while(i < nums1.length) {
-            mergedarray[k++] = nums1[i++];
-        }
-        
-        while(j < nums2.length) {
-            mergedarray[k++] = nums2[j++];
-        }
-        
-        int l = mergedarray.length;
-        
-        double avg;
-        int mid = l/2;
-       
-        
-        if (l%2 == 0) {
-            double sum = mergedarray[mid-1] + mergedarray[mid];
-            avg = (sum/2); 
-        } else {
-            avg = (Math.floor(mergedarray[mid]));
-        }
-        
-        return avg;
     }
 }
